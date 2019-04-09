@@ -1,0 +1,46 @@
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution(object):
+    def partition(self, head, x):
+        """
+        :type head: ListNode
+        :type x: int
+        :rtype: ListNode
+        """
+        if head is None:
+            return head
+        left_head = right_head = None
+        left_cur = right_cur = None
+        left_tail = None
+        if head.val < x:
+            left_head = left_cur = head
+        else:
+            right_head = right_cur = head
+
+        cur = head.next
+        while cur is not None:
+            if cur.val < x:
+                if left_head is None:
+                    left_head = left_cur = cur
+                else:
+                    left_cur.next = cur
+                    left_cur = cur
+            else:
+                if right_head is None:
+                    right_head = right_cur = cur
+                else:
+                    right_cur.next = cur
+                    right_cur = cur
+            cur = cur.next
+        if left_cur is None:
+            right_cur.next = None
+            return right_head
+        else:
+            left_cur.next = right_head
+            if right_cur is not None:
+                right_cur.next = None
+            return left_head
+
